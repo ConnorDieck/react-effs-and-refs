@@ -21,10 +21,14 @@ const Deck = () => {
 
 	const drawCard = async () => {
 		if (deck.remaining > 0) {
-			const cardResult = await axios.get(`http://deckofcardsapi.com/api/deck/${deck.deck_id}/draw/?count=1`);
-			setDeck(cardResult.data);
-			console.log(deck.remaining);
-			setCards([ ...cards, cardResult.data.cards[0] ]);
+			try {
+				const cardResult = await axios.get(`http://deckofcardsapi.com/api/deck/${deck.deck_id}/draw/?count=1`);
+				setDeck(cardResult.data);
+				console.log(deck.remaining);
+				setCards([ ...cards, cardResult.data.cards[0] ]);
+			} catch (err) {
+				throw err;
+			}
 		} else {
 			alert(`Error: no cards remaining!`);
 		}
